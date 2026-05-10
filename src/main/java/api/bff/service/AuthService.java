@@ -1,9 +1,6 @@
 package api.bff.service;
 
-import api.bff.dto.auth.LoginRequest;
-import api.bff.dto.auth.LoginResponse;
-import api.bff.dto.auth.RegisterRequest;
-import api.bff.dto.auth.RegisterResponse;
+import api.bff.dto.auth.*;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -52,5 +49,30 @@ public class AuthService {
                 .body(registerRequest)
                 .retrieve()
                 .body(RegisterResponse.class);
+    }
+
+    /**
+     * Este método envía la nueva contraseña al microservicio de Auth
+     * para actualizar un usuario existente.
+     */
+    public ChangePasswordResponse changePassword(Long id, ChangePasswordRequest changePasswordRequest) {
+        return authRestClient.patch()
+                .uri("/usuarios/{id}/change-password", id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(changePasswordRequest)
+                .retrieve()
+                .body(ChangePasswordResponse.class);
+    }
+
+    /**
+     * Este método envía los datos actualizados de un usuario al microservicio de Auth.
+     */
+    public UpdateUserResponse updateUser(Long id, UpdateUserRequest updateUserRequest) {
+        return authRestClient.put()
+                .uri("/usuarios/{id}", id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(updateUserRequest)
+                .retrieve()
+                .body(UpdateUserResponse.class);
     }
 }
