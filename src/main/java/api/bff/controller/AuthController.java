@@ -1,16 +1,10 @@
 package api.bff.controller;
 
-import api.bff.dto.auth.LoginRequest;
-import api.bff.dto.auth.LoginResponse;
-import api.bff.dto.auth.RegisterRequest;
-import api.bff.dto.auth.RegisterResponse;
+import api.bff.dto.auth.*;
 import api.bff.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Los "Controllers" en Spring Boot son la "puerta de entrada" para tu aplicación.
@@ -51,6 +45,34 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<RegisterResponse> register(@RequestBody RegisterRequest registerRequest) {
         RegisterResponse response = authService.register(registerRequest);
+        return ResponseEntity.ok(response);
+    }
+
+    /**
+     * Endpoint para cambiar la contraseña de un usuario.
+     * URL completa: PATCH http://localhost:8080/api/bff/auth/usuarios/{id}/change-password
+     *
+     * @param id El ID del usuario a modificar.
+     * @param changePasswordRequest El cuerpo de la petición con la nueva contraseña.
+     * @return El usuario actualizado.
+     */
+    @PatchMapping("/usuarios/{id}/change-password")
+    public ResponseEntity<ChangePasswordResponse> changePassword(@PathVariable Long id, @RequestBody ChangePasswordRequest changePasswordRequest) {
+        ChangePasswordResponse response = authService.changePassword(id, changePasswordRequest);
+        return ResponseEntity.ok(response);
+    }
+
+    /**
+     * Endpoint para actualizar los datos de un usuario.
+     * URL completa: PUT http://localhost:8080/api/bff/auth/usuarios/{id}
+     *
+     * @param id El ID del usuario a modificar.
+     * @param updateUserRequest El cuerpo de la petición con los nuevos datos del usuario.
+     * @return El usuario actualizado.
+     */
+    @PutMapping("/usuarios/{id}")
+    public ResponseEntity<UpdateUserResponse> updateUser(@PathVariable Long id, @RequestBody UpdateUserRequest updateUserRequest) {
+        UpdateUserResponse response = authService.updateUser(id, updateUserRequest);
         return ResponseEntity.ok(response);
     }
 }
