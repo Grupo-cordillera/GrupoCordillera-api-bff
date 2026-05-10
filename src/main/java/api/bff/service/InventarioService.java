@@ -4,6 +4,7 @@ import api.bff.dto.inventario.*;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
+import org.springframework.core.ParameterizedTypeReference;
 
 import java.util.List;
 
@@ -54,7 +55,7 @@ public class InventarioService {
         return restClient.get()
                 .uri("/api/inventario/productos")
                 .retrieve()
-                .body(List.class); // La respuesta es una lista, así que la convertimos a una Lista genérica.
+                .body(new ParameterizedTypeReference<List<ProductoResponse>>() {});
     }
 
     /**
@@ -105,7 +106,7 @@ public class InventarioService {
         return restClient.get()
                 .uri("/api/inventario/movimientos/{sku}", sku)
                 .retrieve()
-                .body(List.class);
+                .body(new ParameterizedTypeReference<List<ItemInventario>>() {});
     }
 
     /**
@@ -144,6 +145,6 @@ public class InventarioService {
         return restClient.get()
                 .uri("/api/inventario/metricas/{sku}", sku)
                 .retrieve()
-                .body(List.class);
+                .body(new ParameterizedTypeReference<List<MetricaRentabilidad>>() {});
     }
 }

@@ -17,6 +17,9 @@ public record ProductoResponse(
         // Una descripción detallada del producto.
         String descripcion,
 
+        // Stock total consolidado del producto en inventario.
+        Integer stockTotalConsolidado,
+
         // Un texto que indica el estado del stock actual del producto.
         // Por ejemplo: "EN_STOCK", "STOCK_BAJO", "SIN_STOCK".
         String estadoStock
