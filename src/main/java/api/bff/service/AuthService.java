@@ -66,6 +66,16 @@ public class AuthService {
     }
 
     /**
+     * Obtiene la lista de todos los roles desde el microservicio Auth.
+     */
+    public List<RolResponse> getAllRoles() {
+        return authRestClient.get() // Petición GET
+                .uri("/rol") // Ruta en tu microservicio Auth
+                .retrieve()
+                .body(new ParameterizedTypeReference<List<RolResponse>>() {});
+    }
+
+    /**
      * Este método envía la nueva contraseña al microservicio de Auth
      * para actualizar un usuario existente.
      */

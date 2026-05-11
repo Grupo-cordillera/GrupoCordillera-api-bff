@@ -63,6 +63,18 @@ public class AuthController {
     }
 
     /**
+     * Endpoint para listar todos los roles.
+     * URL completa: GET http://localhost:8080/api/bff/auth/roles
+     *
+     * @return Una lista de roles.
+     */
+    @GetMapping("/roles")
+    public ResponseEntity<List<RolResponse>> getAllRoles() {
+        List<RolResponse> roles = authService.getAllRoles();
+        return ResponseEntity.ok(roles);
+    }
+
+    /**
      * Endpoint para cambiar la contraseña de un usuario.
      * URL completa: PATCH http://localhost:8080/api/bff/auth/usuarios/{id}/change-password
      *
