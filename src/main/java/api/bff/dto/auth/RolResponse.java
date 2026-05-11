@@ -1,10 +1,15 @@
 package api.bff.dto.auth;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class RolResponse {
-    private Long id_rol;
-    private int numero_rol;
-    private String nombre_rol;
+    private Long id;
+    private String nombre;
 }
