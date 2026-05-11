@@ -11,5 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RolResponse {
     private Long id;
+    private Integer numeroRol;
     private String nombre;
+    private String funcion;
 }
