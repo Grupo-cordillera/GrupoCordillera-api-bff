@@ -70,7 +70,7 @@ public class AuthService {
      */
     public List<RolResponse> getAllRoles() {
         return authRestClient.get() // Petición GET
-                .uri("/rol") // Ruta en tu microservicio Auth
+                .uri("/api/rol") // Ruta correcta en tu microservicio Auth
                 .retrieve()
                 .body(new ParameterizedTypeReference<List<RolResponse>>() {});
     }
