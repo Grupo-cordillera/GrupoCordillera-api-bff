@@ -2,9 +2,12 @@ package api.bff.service;
 
 import api.bff.dto.auth.*;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
+
+import java.util.List;
 
 /**
  * Los "Services" en Spring Boot son las clases encargadas de la LÓGICA DE NEGOCIO.
@@ -52,6 +55,17 @@ public class AuthService {
     }
 
     /**
+     * Obtiene la lista de todos los usuarios desde el microservicio Auth.
+     */
+    public List<UserResponse> getAllUsers() {
+        return authRestClient.get() // Petición GET
+                .uri("/usuarios") // Ruta en tu microservicio Auth
+                .retrieve()
+                // Usamos ParameterizedTypeReference porque estamos esperando una Lista (List<T>)
+                .body(new ParameterizedTypeReference<List<UserResponse>>() {});
+    }
+
+    /**
      * Este método envía la nueva contraseña al microservicio de Auth
      * para actualizar un usuario existente.
      */
@@ -74,5 +88,15 @@ public class AuthService {
                 .body(updateUserRequest)
                 .retrieve()
                 .body(UpdateUserResponse.class);
+    }
+
+    /**
+     * Este método envía una petición DELETE al microservicio de Auth para eliminar un usuario.
+     */
+    public void deleteUser(Long id) {
+        authRestClient.delete()
+                .uri("/usuarios/{id}", id)
+                .retrieve()
+                .toBodilessEntity(); // Usamos toBodilessEntity() porque el endpoint devuelve ResponseEntity.noContent().build()
     }
 }
