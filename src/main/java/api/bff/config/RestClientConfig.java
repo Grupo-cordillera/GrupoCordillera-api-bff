@@ -22,10 +22,26 @@ public class RestClientConfig {
 
     @Bean
     public RestClient authRestClient() {
-        // El cliente para el servicio de autenticación no necesita enviar el token,
-        // ya que es el que los genera.
         return RestClient.builder()
                 .baseUrl(authUrl)
+                // AÑADIDO: Interceptor para propagar el token JWT
+                .requestInterceptor((request, body, execution) -> {
+                    // Obtenemos la petición HTTP que llegó al BFF desde el frontend
+                    Optional.ofNullable(RequestContextHolder.getRequestAttributes())
+                            .filter(ServletRequestAttributes.class::isInstance)
+                            .map(ServletRequestAttributes.class::cast)
+                            .map(ServletRequestAttributes::getRequest)
+                            // Obtenemos el encabezado "Authorization" de esa petición
+                            .map(req -> req.getHeader(HttpHeaders.AUTHORIZATION))
+                            // Si el encabezado existe...
+                            .ifPresent(token -> {
+                                // ...lo añadimos a la petición que el BFF va a enviar al microservicio de Auth.
+                                request.getHeaders().add(HttpHeaders.AUTHORIZATION, token);
+                            });
+
+                    // Continuamos con la ejecución de la petición
+                    return execution.execute(request, body);
+                })
                 .build();
     }
 

@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * Los "Controllers" en Spring Boot son la "puerta de entrada" para tu aplicación.
  * Ellos exponen las URLs que el FRONTEND (React, Angular, Móvil) va a llamar.
@@ -49,6 +51,18 @@ public class AuthController {
     }
 
     /**
+     * Endpoint para listar todos los usuarios.
+     * URL completa: GET http://localhost:8080/api/bff/auth/usuarios
+     *
+     * @return Una lista de usuarios.
+     */
+    @GetMapping("/usuarios")
+    public ResponseEntity<List<UserResponse>> getAllUsers() {
+        List<UserResponse> users = authService.getAllUsers();
+        return ResponseEntity.ok(users);
+    }
+
+    /**
      * Endpoint para cambiar la contraseña de un usuario.
      * URL completa: PATCH http://localhost:8080/api/bff/auth/usuarios/{id}/change-password
      *
@@ -74,5 +88,18 @@ public class AuthController {
     public ResponseEntity<UpdateUserResponse> updateUser(@PathVariable Long id, @RequestBody UpdateUserRequest updateUserRequest) {
         UpdateUserResponse response = authService.updateUser(id, updateUserRequest);
         return ResponseEntity.ok(response);
+    }
+
+    /**
+     * Endpoint para eliminar un usuario.
+     * URL completa: DELETE http://localhost:8080/api/bff/auth/usuarios/{id}
+     *
+     * @param id El ID del usuario a eliminar.
+     * @return Un código de estado 204 No Content si se eliminó correctamente.
+     */
+    @DeleteMapping("/usuarios/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        authService.deleteUser(id);
+        return ResponseEntity.noContent().build();
     }
 }
