@@ -33,7 +33,7 @@ public class AuthController {
         // 1. Llamamos a nuestro servicio pasándole los datos del login
         LoginResponse response = authService.login(loginRequest);
         
-        // 2. Si todo salió bien, devolvemos un HTTP 200 (OK) con la respuesta
+        // 2. Si salió bien, devolvemos un HTTP 200 (OK) con la respuesta
         return ResponseEntity.ok(response);
     }
 
@@ -51,7 +51,7 @@ public class AuthController {
     }
 
     /**
-     * Endpoint para listar todos los usuarios.
+     * Endpoint para listar los usuarios.
      * URL completa: GET http://localhost:8080/api/bff/auth/usuarios
      *
      * @return Una lista de usuarios.
@@ -63,7 +63,7 @@ public class AuthController {
     }
 
     /**
-     * Endpoint para listar todos los roles.
+     * Endpoint para listar los roles.
      * URL completa: GET http://localhost:8080/api/bff/auth/roles
      *
      * @return Una lista de roles.
