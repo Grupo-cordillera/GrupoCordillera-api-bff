@@ -45,6 +45,15 @@ class AuthControllerTest {
         var loginRequest = new LoginRequest("test@example.com", "password123");
         var loginResponse = new LoginResponse();
         loginResponse.setJwt("fake-jwt-token");
+        loginResponse.setId(6L);
+        loginResponse.setNombre("Juan");
+        loginResponse.setApellido("Perez");
+        loginResponse.setCorreo("juan@test.com");
+        loginResponse.setDireccion("Calle 123");
+        loginResponse.setTelefono("123456");
+        
+        var rolDto = new RolDto(1L, 1, "ADMIN", "Administrador del sistema");
+        loginResponse.setRol(rolDto);
 
         when(authService.login(any(LoginRequest.class))).thenReturn(loginResponse);
 
@@ -52,7 +61,17 @@ class AuthControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(loginRequest)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.jwt").value("fake-jwt-token"));
+                .andExpect(jsonPath("$.jwt").value("fake-jwt-token"))
+                .andExpect(jsonPath("$.id").value(6L))
+                .andExpect(jsonPath("$.nombre").value("Juan"))
+                .andExpect(jsonPath("$.apellido").value("Perez"))
+                .andExpect(jsonPath("$.correo").value("juan@test.com"))
+                .andExpect(jsonPath("$.direccion").value("Calle 123"))
+                .andExpect(jsonPath("$.telefono").value("123456"))
+                .andExpect(jsonPath("$.rol.id").value(1L))
+                .andExpect(jsonPath("$.rol.numeroRol").value(1))
+                .andExpect(jsonPath("$.rol.nombre").value("ADMIN"))
+                .andExpect(jsonPath("$.rol.funcion").value("Administrador del sistema"));
     }
 
     @Test

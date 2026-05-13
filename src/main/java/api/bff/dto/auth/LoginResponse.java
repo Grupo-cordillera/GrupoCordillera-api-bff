@@ -14,9 +14,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor // Lombok: Constructor con todos los campos
 public class LoginResponse {
     private String jwt;
+    private Long id;
     private String nombre;
+    private String apellido;
     private String correo;
     private String direccion;
     private String telefono;
-    private String rol;
+    private RolDto rol;
 }
